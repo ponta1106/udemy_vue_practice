@@ -4,15 +4,35 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    h3 {
+      background-color: pink;
+    }
+  </style>
   <title>udemy_Vue_practice</title>
 </head>
 <body>
   <!-- テンプレートを作成(htmlでは無い) -->
   <div id="app">
+    <h3>データを使用してメッセージを描画</h3>
     <p>{{ message }}</p>
+    
+    <h3>v-onを使用してメッセージを反転</h3>
     <button v-on:click="reverseMessage">
       メッセージ反転
     </button>
+    <p>{{ message }}</p>
+    
+    <h3>xss脆弱性があるので非推奨</h3>
+    <div>{{ html }}</div>
+    <div v-html="html"></div>
+    
+    <h3>v-bind(省略形)を使用してGAFAのリンクを表示</h3>
+    <a :href="google">Google</a>
+    <a :href="apple">apple</a>
+    <a :href="facebook">Facebook</a>
+    <a :href="amazon">Amazon</a>
+    <a v-bind="twitterObject">Twitter</a>
   </div>
 
   <!-- Vue.jsをcdnから読み込み -->
@@ -23,13 +43,29 @@
     new Vue({
       el: '#app',
       data: {
-        message: 'HelloWorld!'
+        message: 'HelloWorld!',
+        number: 13,
+        ok: true,
+        html: '<h1>h1です<h1/>',
+        google: 'https://google.com',
+        apple: 'https://apple.com',
+        facebook: 'https://facebook.com',
+        amazon: 'https://amazon.com',
+        twitterObject: {
+          href: 'https://twitter.com',
+          id: 31
+        }
       },
       methods: {
         // メッセージの内容を逆さまにするメソッド
         reverseMessage: function() {
           this.message = this.message.split('').reverse().join('')
-        }
+        },
+        // 自プロパティをメソッドから呼び出す
+        sayHi: function() {
+          this.message = 'Hello VueJs'
+          return 'Hi';
+        },
       }
     })
   </script>
