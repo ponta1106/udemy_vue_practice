@@ -7,6 +7,7 @@
   <style>
     h3 {
       background-color: pink;
+      padding: 10px;
     }
   </style>
   <title>udemy_Vue_practice</title>
@@ -18,7 +19,7 @@
     <p>{{ message }}</p>
     
     <h3>v-onを使用してメッセージを反転</h3>
-    <button v-on:click="reverseMessage">
+    <button @click="reverseMessage">
       メッセージ反転
     </button>
     <p>{{ message }}</p>
@@ -33,7 +34,14 @@
     <a :href="facebook">Facebook</a>
     <a :href="amazon">Amazon</a>
     <a v-bind="twitterObject">Twitter</a>
+
+    <h3>v-onを用いて、クリックなどのイベント発生時に特定の処理をする</h3>
+    <p>現在{{ number }}回クリックされています</p>
+    <button @click="countUp(3)">カウントアップ</button>
+    <p @mousemove="changeMousePosition(10, $event)">マウスをのせてください</p>
+    <p>X: {{ x }}, Y: {{ y }}</p>
   </div>
+
 
   <!-- Vue.jsをcdnから読み込み -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -44,7 +52,7 @@
       el: '#app',
       data: {
         message: 'HelloWorld!',
-        number: 13,
+        number: 0,
         ok: true,
         html: '<h1>h1です<h1/>',
         google: 'https://google.com',
@@ -54,7 +62,9 @@
         twitterObject: {
           href: 'https://twitter.com',
           id: 31
-        }
+        },
+        x: 0,
+        y: 0,
       },
       methods: {
         // メッセージの内容を逆さまにするメソッド
@@ -66,6 +76,13 @@
           this.message = 'Hello VueJs'
           return 'Hi';
         },
+        countUp: function(times) {
+          this.number += 1 * times
+        },
+        changeMousePosition: function(divideNumber, event) {
+          this.x = event.clientX / divideNumber;
+          this.y = event.clientY / divideNumber;
+        }
       }
     })
   </script>
