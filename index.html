@@ -37,9 +37,19 @@
 
     <h3>v-onを用いて、クリックなどのイベント発生時に特定の処理をする</h3>
     <p>現在{{ number }}回クリックされています</p>
-    <button @click="countUp(3)">カウントアップ</button>
-    <p @mousemove="changeMousePosition(10, $event)">マウスをのせてください</p>
+    <button @click="countUp">カウントアップ</button>
+    <p @mousemove="changeMousePosition(10, $event)">マウスをのせてください
+      <span @mousemove.stop>反応しないでください</span>
+    </p>
+    <a @click.prevent.stop href="http://google.com">Google</a>
     <p>X: {{ x }}, Y: {{ y }}</p>
+
+    <h3>キー修飾子</h3>
+    <!-- spaceとenterが押された時だけmyAlert関数を発火 -->
+    <input type="text" v-on:keyup.space.enter="myAlert">
+    <button @click="countUp">カウントアップ</button>
+
+    
   </div>
 
 
@@ -65,6 +75,7 @@
         },
         x: 0,
         y: 0,
+        event: 'click',
       },
       methods: {
         // メッセージの内容を逆さまにするメソッド
@@ -76,12 +87,15 @@
           this.message = 'Hello VueJs'
           return 'Hi';
         },
-        countUp: function(times) {
-          this.number += 1 * times
+        countUp: function() {
+          this.number += 1
         },
         changeMousePosition: function(divideNumber, event) {
           this.x = event.clientX / divideNumber;
           this.y = event.clientY / divideNumber;
+        },
+        myAlert: function() {
+          alert('alert');
         }
       }
     })
