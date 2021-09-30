@@ -5,9 +5,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    body {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      background-color: #bccfc9;
+      color: #555;
+    }
     h3 {
-      background-color: pink;
+      background-color: #dbafa0;
       padding: 10px;
+    }
+    button {
+      padding: 10px;
+      background: #ddd;
+      border: none;
+      border-radius: 3px;
+      box-shadow: 0px 3px 3px #555;
+    }
+    .red {
+      color: red;
+    }
+    .bg-blue {
+      background-color: blue;
     }
   </style>
   <title>udemy_Vue_practice</title>
@@ -68,9 +86,18 @@
     <h3>watcher</h3>
     <p>{{ counter }}</p>
     <button @click="counter += 1">+1</button>
-    
-  </div>
 
+    <h3>クラスをデータにバインディングする</h3>
+    <h1 :class="classObject">Hello</h1>
+    <button @click="isActive = !isActive">切り替え</button>
+
+    <!-- インラインスタイルオブジェクトを直接記入 -->
+    <h1 :style="{ color: textColor, background: bgColor}">Hello</h1>
+    <!-- インラインスタイルオブジェクトをデータに記入 -->
+    <h1 :style="styleObject">Hello</h1>
+    <!-- インラインスタイルオブジェクトを配列で指定 -->
+    <h1 :style="[styleObject, baseStyles]">Hello</h1>
+  </div>
 
   <!-- Vue.jsをcdnから読み込み -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -80,9 +107,6 @@
     new Vue({
       el: '#app',
       data: {
-        message: 'こんにちは',
-        number: 0,
-        ok: true,
         html: '<h1>h1です<h1/>',
         google: 'https://google.com',
         apple: 'https://apple.com',
@@ -92,11 +116,27 @@
           href: 'https://twitter.com',
           id: 31
         },
+        message: 'こんにちは',
+        number: 0,
+        ok: true,
         x: 0,
         y: 0,
         event: 'click',
         counter: 0,
         otherCounter: 0,
+        isActive: true,
+        color: 'red',
+        bg: 'bg-blue',
+        textColor: 'red',
+        bgColor: 'blue',
+        styleObject: {
+          color: 'red',
+          'background-color': 'blue',
+        },
+        baseStyles: {
+          fontSize: '60px',
+        }
+
       },
       methods: {
         // メッセージの内容を逆さまにするメソッド
@@ -128,6 +168,12 @@
         lessThanThreeComputed: function() {
           console.log('Computed')
           return this.counter > 3 ? '3より上' : '3以下'
+        },
+        classObject: function() {
+          return {
+            red: this.isActive,
+            'bg-blue': !this.isActive
+          }
         }
       },
       watch: {
