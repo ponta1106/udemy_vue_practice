@@ -48,7 +48,26 @@
     <!-- spaceとenterが押された時だけmyAlert関数を発火 -->
     <input type="text" v-on:keyup.space.enter="myAlert">
     <button @click="countUp">カウントアップ</button>
+    
+    <h3>v-model</h3>
+    <input type="text" v-model="message">
+    <h1>{{ message }}</h1>
 
+    <h3>computed</h3>
+    <!-- dataは初期値のみを定義する -->
+    <p>{{ counter }}</p>
+    <button @click="counter += 1">+1</button>
+    
+    <p>{{ otherCounter }}</p>
+    <button @click="otherCounter += 1">別の+1</button>
+    <!-- computedはdataの値が変わった時のみ、処理を実行する -->
+    <p>Computedを使用:{{ lessThanThreeComputed  }}</p>
+    <!-- 二重中括弧内の関数は画面描画時に毎回実行されるので非推奨 -->
+    <!-- <p>Methodを使用:{{ lessThanThreeMethod() }}</p> -->
+    
+    <h3>watcher</h3>
+    <p>{{ counter }}</p>
+    <button @click="counter += 1">+1</button>
     
   </div>
 
@@ -61,7 +80,7 @@
     new Vue({
       el: '#app',
       data: {
-        message: 'HelloWorld!',
+        message: 'こんにちは',
         number: 0,
         ok: true,
         html: '<h1>h1です<h1/>',
@@ -76,6 +95,8 @@
         x: 0,
         y: 0,
         event: 'click',
+        counter: 0,
+        otherCounter: 0,
       },
       methods: {
         // メッセージの内容を逆さまにするメソッド
@@ -96,6 +117,27 @@
         },
         myAlert: function() {
           alert('alert');
+        },
+        // 下記は非推奨
+        lessThanThreeMethod() {
+          console.log('Method')
+          return this.counter > 3 ? '3より上' : '3以下'
+        },
+      },
+      computed: {
+        lessThanThreeComputed: function() {
+          console.log('Computed')
+          return this.counter > 3 ? '3より上' : '3以下'
+        }
+      },
+      watch: {
+        // counterの値に変更があった際、3秒後にcounterの値を0にする
+        counter: function() {
+          // おまじない
+          var vm = this;
+          setTimeout(function() {
+            vm.counter = 0
+          }, 3000)
         }
       }
     })
